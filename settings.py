@@ -6,8 +6,8 @@ FLAGS = flags.FLAGS
 
 flags.DEFINE_integer('hidden3', 64, 'Number of units in hidden layer 3.')
 flags.DEFINE_float('learning_rate', 3e-5, 'Initial learning rate.')
-flags.DEFINE_integer('hidden1', 4096, 'Number of units in hidden layer 1.')
-flags.DEFINE_integer('hidden2', 4096, 'Number of units in hidden layer 2.')
+flags.DEFINE_integer('hidden1', 106, 'Number of units in hidden layer 1.')
+flags.DEFINE_integer('hidden2', 106, 'Number of units in hidden layer 2.')
 flags.DEFINE_integer('input_view', 0, 'View No. informative view, ACM:0, DBLP:1')
 flags.DEFINE_float('weight_decay', 0.0001, 'Weight for L2 loss on embedding matrix.')
 flags.DEFINE_float('fea_decay', 0.5, 'feature decay.')

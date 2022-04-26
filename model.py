@@ -49,7 +49,7 @@ class MultiEncoder(Model):
         self.input_dim1 = num_features
         self.input_dim2 = num_features
         self.features_nonzero = features_nonzero
-        self.weight = tf.Variable(1.0e-4 * tf.ones(shape=(3025, 3025)), name="weight")
+        self.weight = tf.Variable(1.0e-4 * tf.ones(shape=(727,727 )), name="weight")#这里是多少3025
         self.coef = self.weight - tf.matrix_diag(tf.diag_part(self.weight))
         self.adj1 = placeholders['adjs1']
         self.adj2 = placeholders['adjs2']

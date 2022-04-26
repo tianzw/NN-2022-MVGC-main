@@ -27,7 +27,7 @@ def get_placeholder():
         'fea_pos_weights2': tf.placeholder(tf.float32),
         'norm': tf.placeholder(tf.float32),
         'PL': tf.placeholder(tf.float32, shape=(None, 3)),
-        'Theta': tf.placeholder(tf.float32, [3025, 3025]),
+        'Theta': tf.placeholder(tf.float32, [727, 727]),#3025 3025
         'Labels': tf.placeholder(tf.int32)
     }
     return placeholders

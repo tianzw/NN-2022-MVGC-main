@@ -59,6 +59,7 @@ class Clustering_Runner():
 
     def erun(self):
         global Coef
+        #Python中定义函数时，若想在函数内部对函数外的变量进行操作，就需要在函数内部声明其为global
         model_str = self.model
 
         # formatted data
@@ -158,10 +159,10 @@ class Clustering_Runner():
                 fh.flush()
                 fh.close()
                 print("-------------------------------------------------------------")
-                print("Rearrange:", "\033[1;31;43m MVGC_Acc:%.4f \033[0m" % acc)
-                print("Rearrange:", "\033[1;31;43m MVGC_Fsc:%.4f \033[0m" % f1_macro)
-                print("Rearrange:", "\033[1;31;43m MVGC_Nmi:%.4f \033[0m" % nmi)
-                print("Rearrange:", "\033[1;31;43m MVGC_Ari:%.4f \033[0m" % adjscore)
+                print("Rearrange: MVGC_Acc:%.4f " % acc)
+                print("Rearrange: MVGC_Fsc:%.4f " % f1_macro)
+                print("Rearrange: MVGC_Nmi:%.4f " % nmi)
+                print("Rearrange: MVGC_Ari:%.4f " % adjscore)
 
     def thrC(self, C, ro):
         if ro < 1:

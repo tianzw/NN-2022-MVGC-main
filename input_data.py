@@ -5,13 +5,13 @@ def load_data(dataset):
     # load the data: x, tx, allx, graph
     global dataset_path, rownetworks, truelabels, truefeatures1, truefeatures2
     if dataset == "ACM":
-        dataset_path = "ACM.mat"
+        dataset_path = "zy.mat"
     elif dataset == "DBLP":
         dataset_path = "DBLP.mat"
     data = sio.loadmat(dataset_path)
 
     if dataset == "ACM":
-        truelabels, truefeatures1, truefeatures2= data['Y'], data['X1'].astype(float), data['X2'].astype(float)
+        truelabels, truefeatures1, truefeatures2= data['Y'], data['X1'].astype(float), data['X1'].astype(float)
         rownetworks = np.array([(data['A1']).tolist(), (data['A2']).tolist()])
     elif dataset == "DBLP":
         truelabels, truefeatures1 = data['label'], data['features'].astype(float)
