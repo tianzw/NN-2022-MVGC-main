@@ -18,7 +18,7 @@ flags.DEFINE_float('ffd_drop', 0., 'Dropout rate (1 - keep probability).')
 flags.DEFINE_integer('features', 1, 'Whether to use features (1) or not (0).')
 flags.DEFINE_integer('seed', 50, 'seed for fixing the results.')
 flags.DEFINE_integer('pre_iterations', 1, 'number of pre_iterations.')
-flags.DEFINE_integer('fin_iterations', 100, 'number of fin_iterations.')
+flags.DEFINE_integer('fin_iterations', 1000, 'number of fin_iterations.')
 flags.DEFINE_integer('n_clusters', 3, 'predict label early stop.')
 flags.DEFINE_float('kl_decay', 0.1, 'kl loss decay.')
 
