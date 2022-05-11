@@ -26,8 +26,8 @@ def get_placeholder():
         'fea_pos_weights1': tf.placeholder(tf.float32),
         'fea_pos_weights2': tf.placeholder(tf.float32),
         'norm': tf.placeholder(tf.float32),
-        'PL': tf.placeholder(tf.float32, shape=(None, 3)),
-        'Theta': tf.placeholder(tf.float32, [727, 727]),#3025 3025
+        'PL': tf.placeholder(tf.float32, shape=(None, 7)),#3
+        'Theta': tf.placeholder(tf.float32, [3000,3000]),#3025 3025 727,727  8254, 8254
         'Labels': tf.placeholder(tf.int32)
     }
     return placeholders
@@ -48,6 +48,7 @@ def format_data(data_name):
     for v in range(numView):
         adj_orig = rownetworks[v]
         adj_orig = adj_orig - sp.dia_matrix((adj_orig.diagonal()[np.newaxis, :], [0]), shape=adj_orig.shape)
+        #sp.dia_matrix具有对角存储的稀疏矩阵   diagonal()查看对角矩阵  np.newaxis的作用是增加一个维度 np.newaxis这里增加1维 改变维度的作用往往是将一维的数据转变成一个矩阵
         adjs_orig.append(adj_orig)
     adjs_label = rownetworks
     adjs_orig = np.array(adjs_orig)

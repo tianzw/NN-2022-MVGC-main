@@ -16,9 +16,10 @@ def preprocess_graph(adjs):
     adjs_normarlized = []
     for v in range(numView):
         adj = sp.coo_matrix(adjs[v])
-        adj_ = adj + sp.eye(adj.shape[0])
+        adj_ = adj + sp.eye(adj.shape[0])#返回一个稀疏 矩阵，其中对角线全为 1，其他全为 0 adj_对角线加1
         rowsum = np.array(adj_.sum(1))
         degree_mat_inv_sqrt = sp.diags(np.power(rowsum, -0.5).flatten())
+       # sp.diags对角化 下一行是转置后相乘
         adj_normalized = adj_.dot(degree_mat_inv_sqrt).transpose().dot(degree_mat_inv_sqrt).toarray()
         adjs_normarlized.append(adj_normalized.tolist())
     return np.array(adjs_normarlized)

@@ -23,7 +23,7 @@ flags = tf.app.flags
 FLAGS = flags.FLAGS
 
 
-def best_map(L1, L2):
+def best_map(L1, L2):#########L1 should be the labels and L2 should be the clustering number we got
     Label1 = np.unique(L1)
     nClass1 = len(Label1)
     Label2 = np.unique(L2)
@@ -66,10 +66,11 @@ class Clustering_Runner():
         feas = format_data(self.data_name)
         # print(feas['num_features1'],feas['num_features2'],feas['num_nodes'], self.n_clusters)
         X2 = feas['features1']
-        X1 = feas['features2'] # fft(X2) # np.matmul(X2,X2.T)
+        X1 = feas['features2']
+        #X1 = fft(X2) # np.matmul(X2,X2.T)
         A = feas['adjs']
         A1 = A[1]
-        A2 = A[1]
+        A2 = A[0]
         PW = feas['pos_weights']
         PW1 = PW[1]
         PW2 = PW[1]
@@ -84,6 +85,7 @@ class Clustering_Runner():
 
         # construct model
         MGCN_model = get_model(model_str, placeholders, feas['num_features1'], feas['num_nodes'], self.n_clusters)
+        print(placeholders)
         #
         # Optimizer
         opt = get_optimizer(model_str, MGCN_model, placeholders)
@@ -101,8 +103,8 @@ class Clustering_Runner():
         alpha = max(0.4 - (3 - 1) / 10 * 0.1, 0.1)
         Ncoef = 0.5 * (np.abs(Coef) + np.abs(Coef.T))
         commonZ = self.thrC(Ncoef, alpha)
-        y_x, _ = self.post_proC(commonZ, 3, 10, 3.5)
-        cm = clustering_metrics(L, y_x + 1)
+        y_x, _ = self.post_proC(commonZ, 7, 10, 3.5)       ###########這裏是不是改成7  (commonZ, 3, 10, 3.5)
+        cm = clustering_metrics(L, y_x + 1)####################这里为什么加1        (L, y_x + 1)
         acc, f1_macro, precision_macro, nmi, adjscore, _ = cm.evaluationClusterModelFromLabel()
         # missrate_x = self.err_rate(L, y_x + 1)
         # acc_x = 1 - missrate_x
@@ -119,7 +121,7 @@ class Clustering_Runner():
         s2_label_subjs = s2_label_subjs - s2_label_subjs.min() + 1
         s2_label_subjs = np.squeeze(s2_label_subjs)
         one_hot_Label = self.get_one_hot_Label(s2_label_subjs)
-        s2_Q = self.form_structure_matrix(s2_label_subjs, 3)
+        s2_Q = self.form_structure_matrix(s2_label_subjs, 7)########################(s2_label_subjs, 3)
         s2_Theta = self.form_Theta(s2_Q)
         Y = y_x
         for fin_epoch in range(self.fin_iteration):
@@ -131,11 +133,11 @@ class Clustering_Runner():
                 s2_label_subjs = s2_label_subjs - s2_label_subjs.min() + 1
                 s2_label_subjs = np.squeeze(s2_label_subjs)
                 one_hot_Label = self.get_one_hot_Label(s2_label_subjs)
-                s2_Q = self.form_structure_matrix(s2_label_subjs, 3)
+                s2_Q = self.form_structure_matrix(s2_label_subjs, 7) ####################################################(s2_label_subjs, 3)
                 s2_Theta = self.form_Theta(s2_Q)
                 s2_Coef = self.thrC(s2_Coef, alpha)
-                y_x, Soft_Q = self.post_proC(s2_Coef, 3, 10, 3.5)
-                if len(np.unique(y_x)) != 3:
+                y_x, Soft_Q = self.post_proC(s2_Coef, 7, 10, 3.5)###########(s2_Coef, 3, 10, 3.5)
+                if len(np.unique(y_x)) != 7:####################################################(s2_Coef, 3, 10, 3.5)
                     continue
                 Y = best_map(Y + 1, y_x + 1) - 1
                 Y = Y.astype(np.int)
@@ -185,6 +187,7 @@ class Clustering_Runner():
             Cp = C
         return Cp
 
+    # C: coefficient matrix, K: number of clusters, d: dimension of each subspace
     def post_proC(self, C, K, d, alpha):
         # C: coefficient matrix, K: number of clusters, d: dimension of each subspace
         C = 0.5 * (C + C.T)
@@ -194,6 +197,7 @@ class Clustering_Runner():
         S = np.sqrt(S[::-1])
         S = np.diag(S)
         U = U.dot(S)
+        # 对数据进行L2正则化
         U = normalize(U, norm='l2', axis=1)
         Z = U.dot(U.T)
         Z = Z * (Z > 0)
@@ -227,7 +231,7 @@ class Clustering_Runner():
             Label = Label - 1
 
         Label = np.array(Label)
-        n_class = 3
+        n_class = 7 ###################################        n_class = 3
         n_sample = Label.shape[0]
         one_hot_Label = np.zeros((n_sample, n_class))
         for i, j in enumerate(Label):

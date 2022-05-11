@@ -44,6 +44,8 @@ class clustering_metrics():
     def __init__(self, true_label, predict_label):
         self.true_label = true_label
         self.pred_label = predict_label
+        print("clustering metrics init", true_label[:100],)
+        print("predict_label",predict_label[:100])
 
 
     def clusteringAcc(self):
@@ -52,7 +54,9 @@ class clustering_metrics():
         numclass1 = len(l1)
 
         l2 = list(set(self.pred_label))
+        print(len(self.pred_label))
         numclass2 = len(l2)
+        print(len(l1),len(l2))##################################输出真实标签 和预测标签
         if numclass1 != numclass2:
             print('Class Not equal, Error!!!!')
             return 0, 0, 0, 0, 0, 0, 0

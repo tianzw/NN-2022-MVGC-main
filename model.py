@@ -49,7 +49,7 @@ class MultiEncoder(Model):
         self.input_dim1 = num_features
         self.input_dim2 = num_features
         self.features_nonzero = features_nonzero
-        self.weight = tf.Variable(1.0e-4 * tf.ones(shape=(727,727 )), name="weight")#这里是多少3025
+        self.weight = tf.Variable(1.0e-4 * tf.ones(shape=(3000,3000)), name="weight")#这里是多少3025  727, 727 8254, 8254
         self.coef = self.weight - tf.matrix_diag(tf.diag_part(self.weight))
         self.adj1 = placeholders['adjs1']
         self.adj2 = placeholders['adjs2']
@@ -82,7 +82,7 @@ class MultiEncoder(Model):
             layer_flat1, num_features1 = self.flatten_layer(self.z_mean1)
             layer_full1 = tf.layers.dense(inputs=layer_flat1, units=1024, activation=None,
                                          kernel_initializer=layers.variance_scaling_initializer(dtype=tf.float32))
-            self.SZ1 = tf.layers.dense(inputs=layer_full1, units=3, activation=None,
+            self.SZ1 = tf.layers.dense(inputs=layer_full1, units=7, activation=None, #####################################units=3,
                                      kernel_initializer=layers.variance_scaling_initializer(dtype=tf.float32))
 
             self.reconstructions1 = InnerProductDecoder(input_dim=FLAGS.hidden2,
@@ -114,7 +114,7 @@ class MultiEncoder(Model):
             layer_flat2, num_features2 = self.flatten_layer2(self.z_mean2)
             layer_full12 = tf.layers.dense(inputs=layer_flat2, units=1024, activation=None,
                                           kernel_initializer=layers.variance_scaling_initializer(dtype=tf.float32))
-            self.SZ2 = tf.layers.dense(inputs=layer_full12, units=3, activation=None,
+            self.SZ2 = tf.layers.dense(inputs=layer_full12, units=7, activation=None,####################################units=3,
                                        kernel_initializer=layers.variance_scaling_initializer(dtype=tf.float32))
 
             self.reconstructions2 = InnerProductDecoder(input_dim=FLAGS.hidden2,
